@@ -3,56 +3,93 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'auth/app_state.dart';
 import 'theme/custom_theme.dart';
-import 'views/auth/auth_screen.dart';
+import 'views/auth/auth_navigation.dart';
+import 'views/splash_screen.dart';
 import 'views/student/student_home_screen.dart';
+import 'views/student/student_dashboard_screen.dart';
+import 'views/student/student_interests_screen.dart';
+import 'views/student/student_topic_screen.dart';
+import 'views/student/student_profile_screen.dart';
+import 'views/student/project_recommendations_screen.dart';
 import 'views/lecturer/lecturer_home_screen.dart';
-import 'views/admin/admin_home_screen.dart';
+import 'views/lecturer/lecturer_specializations_screen.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    print('Failed to initialize Firebase: $e');
+    // Continue anyway for development purposes
+  }
   runApp(
     ChangeNotifierProvider(
       create: (_) => AppState(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  const MyApp({super.key});  @override  Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
     return MaterialApp(
       title: 'Project Topic Allocator',
       theme: customTheme,
       debugShowCheckedModeBanner: false,
-      home: AnimatedBuilder(
-        animation: appState,
-        builder: (context, _) {
-          if (!appState.isAuthenticated) {
-            return AuthScreen(
-              onLogin: appState.loginWithEmail,
-              onRegister: appState.registerWithEmail,
+      home: appState.isInitializing 
+          ? const SplashScreen() 
+          : _buildHomeScreen(appState),
+      // Using onGenerateRoute for safer navigation
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {          case '/student/dashboard':
+            return MaterialPageRoute(builder: (_) => const StudentDashboardScreen());
+          case '/student/interests':
+            return MaterialPageRoute(builder: (_) => const StudentInterestsScreen());
+          case '/student/recommendations':
+            return MaterialPageRoute(builder: (_) => const ProjectRecommendationsScreen());
+          case '/student/topic':
+            return MaterialPageRoute(builder: (_) => const StudentTopicScreen());
+          case '/student/profile':
+            return MaterialPageRoute(builder: (_) => StudentProfileScreen(onLogout: appState.logout));
+          case '/lecturer/specializations':
+            return MaterialPageRoute(builder: (_) => const LecturerSpecializationsScreen());
+          default:
+            // Return a 404 error page for unknown routes
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                appBar: AppBar(title: const Text('Page Not Found')),
+                body: Center(child: Text('No route defined for ${settings.name}')),
+              ),
             );
-          }
-          switch (appState.role) {
-            case 'student':
-              return StudentHomeScreen(onLogout: appState.logout);
-            case 'lecturer':
-              return LecturerHomeScreen(onLogout: appState.logout);
-            case 'admin':
-              return AdminHomeScreen(onLogout: appState.logout);
-            default:
-              return AuthScreen(
-                onLogin: appState.loginWithEmail,
-                onRegister: appState.registerWithEmail,
-              );
-          }
-        },
-      ),
+        }
+      },
     );
+  }
+    Widget _buildHomeScreen(AppState appState) {
+    // Safety check for authentication
+    if (appState.firebaseUser == null || !appState.isAuthenticated) {
+      return AuthNavigation(
+        onLogin: appState.loginWithEmail,
+        onRegister: appState.registerWithEmail,
+      );
+    }
+    
+    // Default to student role if role is null to avoid crashes
+    final role = appState.role ?? 'student';
+      switch (role) {
+      case 'student':
+        return StudentHomeScreen(onLogout: appState.logout);
+      case 'lecturer':
+        return LecturerHomeScreen(onLogout: appState.logout);
+      default:
+        return AuthNavigation(
+          onLogin: appState.loginWithEmail,
+          onRegister: appState.registerWithEmail,
+        );
+    }
   }
 }

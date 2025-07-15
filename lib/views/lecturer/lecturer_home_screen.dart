@@ -1,57 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodels/lecturer_viewmodel.dart';
+import '../../viewmodels/navigation_viewmodel.dart';
+import 'lecturer_dashboard_screen.dart';
+import 'lecturer_topics_screen.dart';
+import 'lecturer_students_screen.dart';
+import 'lecturer_profile_screen.dart';
+import 'lecturer_specializations_screen.dart';
 
-class LecturerHomeScreen extends StatelessWidget {
+class LecturerHomeScreen extends StatefulWidget {
   final VoidCallback? onLogout;
   const LecturerHomeScreen({super.key, this.onLogout});
 
   @override
+  State<LecturerHomeScreen> createState() => _LecturerHomeScreenState();
+}
+
+class _LecturerHomeScreenState extends State<LecturerHomeScreen> {
+  int _selectedIndex = 0;
+    @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lecturer Dashboard'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: onLogout,
-            tooltip: 'Logout',
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LecturerViewModel()),
+        ChangeNotifierProvider(create: (_) => NavigationViewModel()),
+      ],
+      child: Scaffold(
+        body: IndexedStack(
+          index: _selectedIndex,
           children: [
-            const Text('Welcome, Lecturer!', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 24),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.edit),
-                title: const Text('Edit Specializations'),
-                subtitle: const Text('Update your research areas.'),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {}, // todo: Implement navigation
-              ),
+            // Dashboard
+            const LecturerDashboardScreen(),
+            
+            // Topics
+            const LecturerTopicsScreen(),
+            
+            // Specializations
+            const LecturerSpecializationsScreen(),
+            
+            // Students
+            const LecturerStudentsScreen(),
+            
+            // Profile
+            LecturerProfileScreen(onLogout: widget.onLogout),
+          ],
+        ),        bottomNavigationBar: NavigationBar(
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.dashboard_outlined),
+              selectedIcon: Icon(Icons.dashboard),
+              label: 'Dashboard',
             ),
-            const SizedBox(height: 16),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.topic),
-                title: const Text('Manage Topics'),
-                subtitle: const Text('Add or edit project topics.'),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {}, // todo: Implement navigation
-              ),
+            NavigationDestination(
+              icon: Icon(Icons.topic_outlined),
+              selectedIcon: Icon(Icons.topic),
+              label: 'Topics',
             ),
-            const SizedBox(height: 16),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.group),
-                title: const Text('View Assigned Students'),
-                subtitle: const Text('See students assigned to your topics.'),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {}, // todo: Implement navigation
-              ),
+            NavigationDestination(
+              icon: Icon(Icons.psychology_outlined),
+              selectedIcon: Icon(Icons.psychology),
+              label: 'Expertise',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.people_outline),
+              selectedIcon: Icon(Icons.people),
+              label: 'Students',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person),
+              label: 'Profile',
             ),
           ],
         ),
