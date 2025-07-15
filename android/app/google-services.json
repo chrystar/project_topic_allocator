@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1091804600165",
+    "project_id": "project-topic-allocator",
+    "storage_bucket": "project-topic-allocator.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091804600165:android:2df1787b16a20ffb94b38c",
+        "android_client_info": {
+          "package_name": "com.example.project_topic_allocator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1DKF8JW8eY3ZVshqdYcz8w77C79DHjv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
