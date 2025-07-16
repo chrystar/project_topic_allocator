@@ -483,13 +483,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 icon: Icons.forum_outlined,
                 title: 'Messages',
                 onTap: () {
-                  // Todo: Navigate to messages screen
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Messages screen coming soon'),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/student/messages');
                 },
               ),
             ),
@@ -505,13 +499,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
                 icon: Icons.help_outline,
                 title: 'Support',
                 onTap: () {
-                  // Todo: Navigate to support screen
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Support screen coming soon'),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/student/support');
                 },
               ),
             ),
