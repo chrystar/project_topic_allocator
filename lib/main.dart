@@ -18,6 +18,8 @@ import 'views/student/student_messages_screen.dart';
 import 'views/student/student_support_screen.dart';
 import 'views/student/student_guidelines_screen.dart';
 import 'views/student/student_dates_screen.dart';
+import 'views/lecturer/lecturer_progress_screen.dart';
+import 'views/lecturer/lecturer_messaging_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,6 +71,10 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => const StudentDatesScreen());
           case '/lecturer/specializations':
             return MaterialPageRoute(builder: (_) => const LecturerSpecializationsScreen());
+          case '/lecturer/progress':
+            return MaterialPageRoute(builder: (_) => const LecturerProgressScreen());
+          case '/lecturer/messages':
+            return MaterialPageRoute(builder: (_) => const LecturerMessagingScreen());
           default:
             // Return a 404 error page for unknown routes
             return MaterialPageRoute(

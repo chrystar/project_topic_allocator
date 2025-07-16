@@ -459,13 +459,7 @@ class _LecturerStudentsScreenState extends State<LecturerStudentsScreen> {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    // TODO: Navigate to progress screen
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Progress tracking feature coming soon'),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                    Navigator.pushNamed(context, '/lecturer/progress');
                   },
                   icon: const Icon(Icons.assessment_outlined, size: 18),
                   label: const Text('View Progress'),

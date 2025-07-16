@@ -610,12 +610,7 @@ class _LecturerDashboardScreenState extends State<LecturerDashboardScreen> {
                 icon: Icons.message_outlined,
                 title: 'Message Students',
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Messaging feature coming soon'),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/lecturer/messages');
                 },
               ),
             ),
