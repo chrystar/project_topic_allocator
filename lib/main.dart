@@ -16,6 +16,8 @@ import 'views/lecturer/lecturer_specializations_screen.dart';
 import 'firebase_options.dart';
 import 'views/student/student_messages_screen.dart';
 import 'views/student/student_support_screen.dart';
+import 'views/student/student_guidelines_screen.dart';
+import 'views/student/student_dates_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +63,10 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => const StudentMessagesScreen());
           case '/student/support':
             return MaterialPageRoute(builder: (_) => const StudentSupportScreen());
+          case '/student/guidelines':
+            return MaterialPageRoute(builder: (_) => const StudentGuidelinesScreen());
+          case '/student/dates':
+            return MaterialPageRoute(builder: (_) => const StudentDatesScreen());
           case '/lecturer/specializations':
             return MaterialPageRoute(builder: (_) => const LecturerSpecializationsScreen());
           default:

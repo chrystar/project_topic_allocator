@@ -533,13 +533,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           title: 'Project Guidelines',
           description: 'Learn about the project requirements and guidelines.',
           onTap: () {
-            // Todo: Navigate to guidelines screen
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Project guidelines coming soon'),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            Navigator.pushNamed(context, '/student/guidelines');
           },
         ),
         const SizedBox(height: 12),
@@ -550,13 +544,7 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
           title: 'Important Dates',
           description: 'View submission deadlines and other important dates.',
           onTap: () {
-            // Todo: Navigate to dates screen
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Important dates coming soon'),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            Navigator.pushNamed(context, '/student/dates');
           },
         ),
       ],
